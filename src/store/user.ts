@@ -5,6 +5,13 @@ import { create, persist } from 'mobx-persist';
 
 import { http } from 'libs/http';
 
+export enum Status {
+  idle,
+  pending,
+  fulfilled,
+  reject,
+}
+
 export class UserStore {
   name = '';
   token = '';

@@ -1,10 +1,12 @@
 import { FC, useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { VerifyCodeResponse } from '@e-raun/api/dist/types/device/types';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { nanoid } from 'nanoid';
 
 import { useDeviceCode } from 'hooks/useDeviceCode/useDeviceCode';
+import { PATHS, generatePath } from 'routes';
 import { userStore } from 'store/user';
 
 import s from './signIn.module.scss';
@@ -14,6 +16,7 @@ const Wrap: FC = ({ children }) => <div className={s.wrap}>{children}</div>;
 export const SignIn = observer(() => {
   const [code, setCode] = useState<string | null>(null);
   const [error, setError] = useState(false);
+  const history = useHistory();
 
   const { setToken, setRefreshToken, getUser, isLoggedIn } = userStore;
 
@@ -37,20 +40,28 @@ export const SignIn = observer(() => {
   }, [close, code, isLoggedIn]);
 
   useEffect(() => {
-    getCode({
-      deviceId: nanoid(),
-      deviceName: 'smarttv',
-      deviceType: 'tv',
-    })
-      .then((res) => {
-        setCode(res.user_code);
+    if (isLoggedIn) {
+      history.push(generatePath(PATHS.Index));
+    } else {
+      getCode({
+        deviceId: nanoid(),
+        deviceName: 'smarttv',
+        deviceType: 'tv',
       })
-      .catch(() => {
-        setError(true);
-      });
-  }, [getCode]);
+        .then((res) => {
+          setCode(res.user_code);
+        })
+        .catch(() => {
+          setError(true);
+        });
+    }
+  }, [getCode, history, isLoggedIn]);
 
-  if (isLoggedIn) return <Wrap>is logged in...</Wrap>;
+  useEffect(() => {
+    return () => {
+      close();
+    };
+  }, [close]);
 
   if (error) return <Wrap>error...</Wrap>;
 
