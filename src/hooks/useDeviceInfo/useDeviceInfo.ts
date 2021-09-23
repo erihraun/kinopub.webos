@@ -9,13 +9,8 @@ export const useDeviceInfo = () => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    console.log('aasdsdasd');
-
     getDeviceInfo().then((res) => {
-      console.log('asdasd');
-
       setInfo(res);
-
       setIsReady(true);
     });
   }, []);

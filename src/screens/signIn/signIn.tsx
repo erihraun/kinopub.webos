@@ -1,31 +1,60 @@
-import { useCallback } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { VerifyCodeResponse } from '@e-raun/api/dist/types/device/types';
+import { runInAction } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import { nanoid } from 'nanoid';
 
 import { useDeviceCode } from 'hooks/useDeviceCode/useDeviceCode';
-import { useDeviceInfo } from 'hooks/useDeviceInfo/useDeviceInfo';
+import { userStore } from 'store/user';
 
 import s from './signIn.module.scss';
 
-export const SignIn = () => {
-  const { info, isReady } = useDeviceInfo();
+const Wrap: FC = ({ children }) => <div className={s.wrap}>{children}</div>;
 
-  const onAuth = useCallback((response: VerifyCodeResponse) => {
-    console.log(response);
-  }, []);
+export const SignIn = observer(() => {
+  const [code, setCode] = useState<string | null>(null);
+  const [error, setError] = useState(false);
 
-  const { data: code, error } = useDeviceCode({
-    deviceId: '',
-    deviceName: 'smarttv',
-    deviceType: 'tv',
+  const { setToken, setRefreshToken, getUser, isLoggedIn } = userStore;
+
+  const onAuth = useCallback(
+    async (response: VerifyCodeResponse) => {
+      await runInAction(async () => {
+        setToken(response.access_token);
+        setRefreshToken(response.refresh_token);
+        await getUser();
+      });
+    },
+    [getUser, setRefreshToken, setToken],
+  );
+
+  const { getCode, close } = useDeviceCode({
     onAuth,
-    execute: isReady,
   });
 
-  if (!isReady) return <div>wait...</div>;
+  useEffect(() => {
+    if (code && isLoggedIn) close();
+  }, [close, code, isLoggedIn]);
 
-  if (error) return <div>error...</div>;
+  useEffect(() => {
+    getCode({
+      deviceId: nanoid(),
+      deviceName: 'smarttv',
+      deviceType: 'tv',
+    })
+      .then((res) => {
+        setCode(res.user_code);
+      })
+      .catch(() => {
+        setError(true);
+      });
+  }, [getCode]);
 
-  if (!code) return <div>loading...</div>;
+  if (isLoggedIn) return <Wrap>is logged in...</Wrap>;
 
-  return <div className={s.wrap}>code: {code}</div>;
-};
+  if (error) return <Wrap>error...</Wrap>;
+
+  if (!code) return <Wrap>loading...</Wrap>;
+
+  return <Wrap>code: {code}</Wrap>;
+});
