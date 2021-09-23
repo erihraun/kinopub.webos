@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Menu } from 'components/menu/menu';
+
 type Props = {
   children: React.ReactNode;
 };
@@ -7,6 +9,7 @@ type Props = {
 const MainLayout: React.FC<Props> = ({ children, ...rest }) => {
   return (
     <div className="flex h-screen w-screen overflow-hidden" {...rest}>
+      <Menu />
       <div className="w-full px-2">{children}</div>
     </div>
   );
