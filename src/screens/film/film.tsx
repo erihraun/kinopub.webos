@@ -1,6 +1,9 @@
-import { Spottable } from 'components/spottable/spottable';
+import { RouteChildrenProps } from 'react-router';
 
-export const FilmScreen = (props: any) => {
-  console.log(props);
-  return <Spottable>Смотреть</Spottable>;
+import { Link } from 'components/link/link';
+
+export const FilmScreen = (props: RouteChildrenProps<{ id: string }>) => {
+  const id = props.match?.params.id;
+
+  return <Link href={`/video/film/${id}`}>Смотреть</Link>;
 };
