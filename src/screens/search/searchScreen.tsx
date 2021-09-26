@@ -20,7 +20,7 @@ export const SearchScreen = observer(() => {
       </div>
       <VideoLine
         values={items}
-        columns={9}
+        columns={6}
         renderItem={(item) => (
           <div className={s.item}>
             <Link href={`/${item.type}/${item.kinopoisk_id}`}>
