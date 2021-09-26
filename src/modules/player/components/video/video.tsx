@@ -6,7 +6,7 @@ import { MediaRef, OwnProps, useVideoPlayerApi } from './usePlayerApi';
 
 type VideoPropsType = {
   onTime(time: number): void;
-  onEnd(): void;
+  onEnded(): void;
   file: string;
   startTime: number;
   autoPlay?: boolean;
@@ -41,7 +41,7 @@ export const MEDIA_EVENTS = [
 type MediaEvents = keyof typeof MEDIA_EVENTS;
 export type MediaProps = VideoPropsType & OwnProps & React.HTMLAttributes<HTMLVideoElement>;
 
-export const Video = React.forwardRef<MediaRef, MediaProps>(({ file, onUpdate, autoPlay, onEnd, onTime, startTime, ...props }, ref) => {
+export const Video = React.forwardRef<MediaRef, MediaProps>(({ file, onUpdate, autoPlay, onEnded, onTime, startTime, ...props }, ref) => {
   const [hls] = useState(
     () =>
       new HLS({
@@ -84,5 +84,5 @@ export const Video = React.forwardRef<MediaRef, MediaProps>(({ file, onUpdate, a
     }
   }, [file, hls, player.videoRef]);
 
-  return <video ref={player.videoRef} {...eventProps} autoPlay={autoPlay} className={cx('w-screen h-screen')} />;
+  return <video ref={player.videoRef} {...eventProps} onEnded={onEnded} autoPlay={autoPlay} className={cx('w-screen h-screen')} />;
 });

@@ -10,6 +10,7 @@ import { PATHS } from 'routes';
 import { FilmScreen } from 'screens/film/film';
 import { IndexScreen } from 'screens/index/indexScreen';
 import { SearchScreen } from 'screens/search/searchScreen';
+import { SerialScreen } from 'screens/serial/serial';
 import { SignIn } from 'screens/signIn/signIn';
 import { VideoScreen } from 'screens/video/video';
 
@@ -23,6 +24,7 @@ const App: React.FC<Props> = (props) => {
         <View component={SearchScreen} path={PATHS.Search} />
         <View component={VideoScreen} path={PATHS.Video} layout="fill" exact />
         <View component={FilmScreen} path={PATHS.Film} layout="fill" />
+        <View component={SerialScreen} path={PATHS.Serial} layout="fill" />
         <View component={SignIn} path={PATHS.Pair} auth={false} />
       </Views>
     </Router>

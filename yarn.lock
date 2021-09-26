@@ -1238,6 +1238,15 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
+"@e-raun/api@1.0.24":
+  version "1.0.24"
+  resolved "https://npm.pkg.github.com/download/@e-raun/api/1.0.24/d7c0b2646d67ecda0070a915cc53064ad43926fb3f6d6824d6fc5b15c5fbbe2e#a4553b31d92482771bbc7a77d704450fae00c8ac"
+  integrity sha512-K5MvafYnGtUjCatHNIFaFVvMOzecuXYNb/wmsUUE9zja6p1KfVrkkjAI7AWHmX+hPl7OGiTgJrtEUB2U64UBgw==
+  dependencies:
+    "@sweet-monads/either" "^2.1.4"
+    axios "^0.21.0"
+    runtypes "^5.0.1"
+
 "@e-raun/api@1.0.42":
   version "1.0.42"
   resolved "https://npm.pkg.github.com/download/@e-raun/api/1.0.42/4ba0f8c1d878acd24240ffac6a82f8daa1d08ec6886ee959e49c2405dc0e2d2b#1a679c8c96f34a06570c6f24a30ef586eb573642"
@@ -1265,6 +1274,16 @@
     axios "0.21.0"
     react "17.0.2"
     swr "0.4.2"
+
+"@e-raun/serial@1.1.4":
+  version "1.1.4"
+  resolved "https://npm.pkg.github.com/download/@e-raun/serial/1.1.4/ff399e78ff7535d9396ac47cf84d3e45e107b7be2ad5c2528b5e47ffe15719a6#a6ddad2df5f2a769f791ce2c4d12730f9db5be42"
+  integrity sha512-f0BVBY6xrkKm4OlwQyaWIUQSUEE9QpyQ5EMPcM09X1KghMlPEHNr5pe2pfKcncQuFzGDTZnTAYNNn3HxqCWyaA==
+  dependencies:
+    "@e-raun/api" "1.0.24"
+    axios "^0.21.0"
+    react "^17.0.1"
+    swr "^0.4.0"
 
 "@enact/core@4.0.5", "@enact/core@^4.0.3", "@enact/core@^4.0.5":
   version "4.0.5"
@@ -12287,7 +12306,7 @@ svgo@^1.0.0, svgo@^1.2.2:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swr@0.4.2:
+swr@0.4.2, swr@^0.4.0:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/swr/-/swr-0.4.2.tgz#4a9ed5e9948088af145c79d716d294cb99712a29"
   integrity sha512-SKGxcAfyijj/lE5ja5zVMDqJNudASH3WZPRUakDVOePTM18FnsXgugndjl9BSRwj+jokFCulMDe7F2pQL+VhEw==

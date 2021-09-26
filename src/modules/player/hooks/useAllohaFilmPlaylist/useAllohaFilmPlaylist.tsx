@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 
+import { useMirror } from 'hooks/useMirror/useMirror';
 import { http } from 'libs/http';
 
 type AllohaFilmPlaylistProps = {
@@ -8,36 +9,59 @@ type AllohaFilmPlaylistProps = {
   translation: string;
 };
 
-export const getAllohaManifest = ({ id, translation, token }: AllohaFilmPlaylistProps): Promise<string> => {
-  const fetchAllohaPlaylist = async () => {
-    const { data } = await http.get<{ translation: string; link: string }[]>(
-      `http://localhost:3001/api/hls/alloha?type=film&kp=${id}&access_token=${token}&translation=${encodeURIComponent(translation)}`,
-    );
-
-    return data;
-  };
-
-  return fetchAllohaPlaylist().then((res) => {
-    return res[0].link;
-  });
+type AllohaSerialPlaylistProps = {
+  id: number;
+  token: string;
+  translation: string;
+  season: number;
+  episode: number;
 };
 
-export const useAllohaFilmPlaylist = ({ id, translation, token }: AllohaFilmPlaylistProps) => {
-  const [data, setData] = useState<string | null>(null);
+export const useAllohaFilm = () => {
+  const getMirror = useMirror();
 
-  useEffect(() => {
-    const fetchAllohaPlaylist = async () => {
-      const { data } = await http.get<{ translation: string; link: string }[]>(
-        `https://akter.top/api/hls/alloha?type=film&kp=${id}&access_token=${token}&translation=${encodeURIComponent(translation)}`,
-      );
+  const getAllohaManifestFilm = useCallback(
+    async ({ id, translation, token }: AllohaFilmPlaylistProps): Promise<string> => {
+      const mirror = await getMirror();
+      const fetchAllohaPlaylist = async () => {
+        const { data } = await http.get<{ translation: string; link: string }[]>(
+          `${mirror}/api/hls/alloha?type=film&kp=${id}&access_token=${token}&translation=${encodeURIComponent(translation)}`,
+        );
 
-      return data;
-    };
+        return data;
+      };
 
-    fetchAllohaPlaylist().then((res) => {
-      setData(res[0].link);
-    });
-  }, [id, token, translation]);
+      return fetchAllohaPlaylist().then((res) => {
+        return res[0].link;
+      });
+    },
+    [getMirror],
+  );
+  return getAllohaManifestFilm;
+};
 
-  return { data };
+export const useAllohaSerial = () => {
+  const getMirror = useMirror();
+
+  const getAllohaManifestSerial = useCallback(
+    async ({ id, translation, token, season, episode }: AllohaSerialPlaylistProps): Promise<string> => {
+      const fetchAllohaPlaylist = async () => {
+        const mirror = await getMirror();
+        const { data } = await http.get<{ translation: string; link: string }[]>(
+          `${mirror}/api/hls/alloha-serial?type=serial&kp=${id}&access_token=${token}&season=${season}&episode=${episode}&translation=${encodeURIComponent(
+            translation,
+          )}`,
+        );
+
+        return data;
+      };
+
+      return fetchAllohaPlaylist().then((res) => {
+        return res[0].link;
+      });
+    },
+    [getMirror],
+  );
+
+  return getAllohaManifestSerial;
 };

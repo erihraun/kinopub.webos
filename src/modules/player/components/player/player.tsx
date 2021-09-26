@@ -81,7 +81,7 @@ export const VideoPlayerWrap: FC<PropsType> = ({ onPlaylistCallback, playlist, a
           autoPlay={autoPlay}
           file={currentPlaylistWithFile.file}
           startTime={currentPlaylistWithFile.startTime}
-          onEnd={onEnd}
+          onEnded={onEnd}
           onTime={console.log}
         />
       }

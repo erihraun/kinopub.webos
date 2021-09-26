@@ -3,7 +3,8 @@ import { FC, useCallback, useMemo } from 'react';
 import { useFilm } from 'hooks/useFilm/useFilm';
 import { userStore } from 'store/user';
 
-import { getAllohaManifest } from '../../hooks/useAllohaFilmPlaylist/useAllohaFilmPlaylist';
+import { useAllohaFilm } from '../../hooks/useAllohaFilmPlaylist/useAllohaFilmPlaylist';
+import { useBazonFilm } from '../../hooks/useBazon/useBazon';
 import { CurrentPlaylistItem, Playlist, VideoPlayerWrap } from '../player/player';
 
 type PropsType = {
@@ -13,6 +14,8 @@ type PropsType = {
 export const Film: FC<PropsType> = ({ id }) => {
   const { token } = userStore;
   const { data } = useFilm(id);
+  const getAlloha = useAllohaFilm();
+  const getBazon = useBazonFilm();
 
   const playlist: Playlist | null = useMemo(
     () =>
@@ -33,15 +36,13 @@ export const Film: FC<PropsType> = ({ id }) => {
   const onPlaylistCallback = useCallback(
     async ({ translation, streamType, ...props }: CurrentPlaylistItem) => {
       if (streamType === 'alloha') {
-        return getAllohaManifest({ id: Number(id), translation, token });
+        return getAlloha({ id: Number(id), translation, token });
       } else if (streamType === 'bazon') {
-        return `http://localhost:3001/api/hls/movie.m3u8?type=film&kp=${id}&access_token=${token}&translation=${encodeURIComponent(
-          translation,
-        )}`;
+        return getBazon({ id, translation, token });
       }
       return '';
     },
-    [id, token],
+    [getAlloha, getBazon, id, token],
   );
 
   if (!playlist) return null;
