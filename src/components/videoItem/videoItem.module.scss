@@ -1,0 +1,8 @@
+.wrap {}
+
+.title {
+  font-size: 22px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

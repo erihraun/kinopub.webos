@@ -1,3 +1,9 @@
+import { VideoCollection } from 'components/videoCollection/videoCollection';
+
 export const IndexScreen = () => {
-  return <div>index screen</div>;
+  return (
+    <div>
+      <VideoCollection collectionName="main-slider" />
+    </div>
+  );
 };

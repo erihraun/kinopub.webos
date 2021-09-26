@@ -1,0 +1,13 @@
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.item {
+  margin-bottom: 25px;
+  padding-left: 15px;
+  padding-right: 15px;
+}

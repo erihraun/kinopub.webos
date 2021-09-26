@@ -1,4 +1,4 @@
-import React, { Suspense, createElement, useMemo } from 'react';
+import React, { Suspense, createElement, useEffect, useMemo, useState } from 'react';
 import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
@@ -15,7 +15,8 @@ export type ViewProps = {
 } & Omit<RouteProps, 'component' | 'render'>;
 
 const View: React.FC<ViewProps> = observer(({ component, layout, auth = true, ...props }) => {
-  const { isLoggedIn } = userStore;
+  const [isReady, setIsReady] = useState(false);
+  const { isLoggedIn, isFulfilled } = userStore;
 
   const Layout = useMemo(() => {
     if (layout === 'fill') {
@@ -34,6 +35,12 @@ const View: React.FC<ViewProps> = observer(({ component, layout, auth = true, ..
       ),
     [component, Layout],
   );
+
+  useEffect(() => {
+    if (isFulfilled) setIsReady(true);
+  }, [isFulfilled]);
+
+  if (!isReady) return null;
 
   if (!auth) return <Route {...props} render={render} />;
 

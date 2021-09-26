@@ -16,6 +16,7 @@ export class UserStore {
   name = '';
   token = '';
   isLoaded = false;
+  status = Status.idle;
   daysPaid = 0;
   refreshToken = '';
   avatar = 'https://s80658.cdn.ngenix.net/i/avatars/avatar1.jpg';
@@ -130,6 +131,10 @@ export class UserStore {
     this.setRefreshToken('');
   };
 
+  setStatus = (status: Status) => {
+    this.status = status;
+  };
+
   refresh = async () => {
     return this.deviceApi
       .refreshToken({
@@ -160,6 +165,10 @@ export class UserStore {
   get isPaid(): boolean {
     return this.paidDays > 0;
   }
+
+  get isFulfilled(): boolean {
+    return this.status === Status.fulfilled;
+  }
 }
 
 export const userStore = new UserStore(new UserApi(http), new DeviceApi(http), http);
@@ -173,4 +182,10 @@ const schema = {
 const hydrate = create();
 
 const userStorePersist = persist(schema)(userStore);
-hydrate('userStore', userStorePersist).then(() => console.log('someStore has been hydrated'));
+
+userStore.setStatus(Status.pending);
+hydrate('userStore', userStorePersist).then(() => {
+  userStore.setStatus(Status.fulfilled);
+
+  console.log('someStore has been hydrated');
+});

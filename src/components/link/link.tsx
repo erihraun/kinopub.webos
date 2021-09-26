@@ -36,20 +36,8 @@ export const Link: React.FC<Props> = ({
   }, [href, state, replace, onClick, history]);
 
   return (
-    <Spottable
-      {...props}
-      className={cx(
-        'whitespace-nowrap rounded cursor-pointer px-2 py-1',
-        {
-          'text-gray-200': !active,
-          'text-red-600': active,
-        },
-        className,
-      )}
-      onClick={handleOnClick}
-      role="button"
-    >
-      <div className="flex items-center ">{children}</div>
+    <Spottable {...props} className={cx(className)} onClick={handleOnClick} role="button">
+      {children}
     </Spottable>
   );
 };
