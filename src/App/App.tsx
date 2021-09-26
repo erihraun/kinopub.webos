@@ -21,7 +21,7 @@ const App: React.FC<Props> = (props) => {
       <Views>
         <View component={IndexScreen} path={PATHS.Index} exact />
         <View component={SearchScreen} path={PATHS.Search} />
-        <View component={VideoScreen} path={PATHS.Video} layout="fill" />
+        <View component={VideoScreen} path={PATHS.Video} layout="fill" exact />
         <View component={FilmScreen} path={PATHS.Film} layout="fill" />
         <View component={SignIn} path={PATHS.Pair} auth={false} />
       </Views>

@@ -22,6 +22,7 @@
   "dependencies": {
     "@babel/runtime": "7.15.3",
     "@e-raun/api": "1.0.45",
+    "@e-raun/film": "1.2.4",
     "@enact/core": "4.0.5",
     "@enact/i18n": "4.0.5",
     "@enact/moonstone": "4.0.2",

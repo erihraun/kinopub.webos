@@ -1,10 +1,9 @@
-import { divide } from 'lodash';
 import { observer } from 'mobx-react-lite';
 
 import { Input } from 'components/input/input';
 import { Link } from 'components/link/link';
 import { Spottable } from 'components/spottable/spottable';
-import { VideoItem, VideoItemSpottable } from 'components/videoItem/videoItem';
+import { VideoItem } from 'components/videoItem/videoItem';
 import { VideoLine } from 'components/videoLine/videoLine';
 import { useSearch } from 'store/search';
 
@@ -14,7 +13,7 @@ export const SearchScreen = observer(() => {
   const { items, search, loadMore, isLoading, hasItems } = useSearch();
 
   return (
-    <div>
+    <>
       <div className={s.input}>
         <Input autoFocus onChange={(value) => search(value)} />
       </div>
@@ -38,6 +37,6 @@ export const SearchScreen = observer(() => {
       />
 
       {hasItems && !isLoading ? <Spottable onClick={loadMore}>load more</Spottable> : null}
-    </div>
+    </>
   );
 });

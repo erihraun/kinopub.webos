@@ -18,7 +18,7 @@ export const PATHS = {
   History: '/history',
   Item: '/item/id:itemId',
   Film: '/film/:id',
-  Video: '/video/:type/:itemId',
+  Video: '/video/:type/:id',
   Trailer: '/trailer/id:trailerId',
   Pair: '/pair',
   Donate: '/donate',

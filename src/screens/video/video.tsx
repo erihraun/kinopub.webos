@@ -1,20 +1,12 @@
-import VideoPlayer from '@enact/moonstone/VideoPlayer';
+import { RouteChildrenProps } from 'react-router';
 
-import { Video } from 'modules/player/components/video/video';
+import { Player } from 'modules/player/player';
 
-export const VideoScreen = () => {
-  return (
-    <VideoPlayer
-      //@ts-expect-error
-      videoComponent={
-        <Video
-          autoPlay={true}
-          file="https://banana.bazonserver.site/manifest/36871/2160.mp4/index.m3u8?hash=Ve3JUuQQaDhqz4Rrl5g5dw&expires=1632682722&id=36871&name=2160.mp4"
-          onEnd={console.log}
-          onTime={console.log}
-          startTime={0}
-        />
-      }
-    />
-  );
+export const VideoScreen = (props: RouteChildrenProps<{ type: 'film' | 'serial'; id: string }>) => {
+  const id = props.match?.params.id;
+  const type = props.match?.params.type;
+
+  if (!id || !type) return null;
+
+  return <Player type={type} id={id} />;
 };
