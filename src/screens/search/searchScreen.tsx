@@ -34,7 +34,7 @@ export const SearchScreen = observer(() => {
             </Link>
           </div>
         )}
-        getId={(item) => item.title}
+        getId={(item) => item.kinopoisk_id.toString()}
       />
 
       {hasItems && !isLoading ? <Spottable onClick={loadMore}>load more</Spottable> : null}
